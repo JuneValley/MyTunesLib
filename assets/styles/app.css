@@ -1,3 +1,55 @@
 body {
-    background-color: skyblue;
+    background-color: white;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+table {
+    border-radius: inherit;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+}
+    
+table tbody tr {
+    border-bottom: 2px solid #009879;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+table tbody tr:hover {
+    background-color: rgb(226, 226, 226);
+}
+
+.artists-array{
+    width: 1%;
+    white-space: nowrap;
+}
+
+.back-button{
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    transition: 0.3s;
+}
+
+.back-button:hover{
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.30);
 }

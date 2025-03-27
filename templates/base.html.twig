@@ -10,8 +10,14 @@
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+        <style>
+            .main-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        </style>
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="main-wrapper">
+            <h1>🎵 My Tunes Lib 🎵</h1>
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>

@@ -40,28 +40,4 @@ class Artist
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Song>
-     */
-    public function getSongs(): Collection
-    {
-        return $this->songs;
-    }
-
-    public function addSong(Song $song): static
-    {
-        if (!$this->songs->contains($song)) {
-            $this->songs->add($song);
-        }
-
-        return $this;
-    }
-
-    public function removeSong(Song $song): static
-    {
-        $this->songs->removeElement($song);
-
-        return $this;
-    }
 }
