@@ -2,9 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\User;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
 class UtilsService {
     /**
      * Returns a song duration formatted in minutes:seconds
@@ -22,17 +19,6 @@ class UtilsService {
         } else {
             return strval($minutes) . ':' . strval($seconds);
         }
-    }
-
-    public function getHashedPasswordUser(UserPasswordHasherInterface $passwordHasher, User $user, string $plaintextPassword): User
-    {
-        $hashedPassword = $passwordHasher->hashPassword(
-            $user,
-            $plaintextPassword
-        );
-        $user->setPassword($hashedPassword);
-
-        return $user;
     }
 
     public function redirectToRoute(string $route): void

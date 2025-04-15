@@ -20,7 +20,7 @@ final class SongsController extends AbstractController
         ]);
     }
 
-    #[Route('/{song_id}', name: 'app_song_details')]
+    #[Route('/song/{song_id}', name: 'app_song_details')]
     public function songDetails(SongRepository $song, UtilsService $utilsService, string $song_id): Response
     {
         $songDetails = $song->findSongById($song_id);

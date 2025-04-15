@@ -15,7 +15,7 @@
 					<td>Durée</td>
 				</tr>
 				{% for song in allSongs %}
-					<tr class="song-tr" onclick="window.location='/{{song.id}}'">
+					<tr class="song-tr" onclick="window.location='/song/{{song.id}}'">
 						<td>
 							{% if song.getUrlCover() %}
 								<img src="{{song.getUrlCover()}}" height="100px" width="100px">
