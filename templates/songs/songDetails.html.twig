@@ -1,38 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Tunes Lib - Détails{% endblock %}
+{% block title %}My Tunes Lib - Détails
+{% endblock %}
 
 {% block body %}
-<a href="/" class="back-button">⬅️ Retour</a>
-<h2>Détails :</h2>
-<div class="song-details">
-    {% if song.getUrlCover() %}
-        <img src="{{song.getUrlCover()}}" height="300px" width="300px">
-    {% else %}
-        <img src="{{asset('default_cover.png')}}" height="300px" width="300px">
+	<a href="/" class="back-button">⬅️ Retour</a>
+	<h2>Détails :</h2>
+	<div class="song-details">
+		{% if song.getUrlCover() %}
+			<img src="{{song.getUrlCover()}}" height="300px" width="300px">
+		{% else %}
+			<img src="{{asset('default_cover.png')}}" height="300px" width="300px">
+		{% endif %}
+		<div class="infos">
+			<h3>
+				{% for artist in song.artists.getValues() %}
+					{% if loop.index > 1 %},
+					{% endif %}
+					{{ artist.name }}
+				{% endfor %}
+			</h3>
+			<h2>{{ song.title }}</h2>
+
+			<div class="blocs">
+				<div class="info-bloc">
+					<p>Genre</p>
+					{{ song.genre.value }}
+				</div>
+				<div class="info-bloc">
+					<p>Durée</p>
+					{{ utilsService.formatDuration(song.duration) }}
+				</div>
+				<div class="info-bloc">
+					<p>Date de sortie</p>
+					{{ song.getReleaseDate().format('d M Y') }}
+				</div>
+			</div>
+		</div>
+	</div>
+    {% if song.getYtbLink() %}
+    <div class="ytb-integration">
+        <iframe width="640" height="360" src="{{song.getYtbLink()}}"></iframe>
+    </div>
     {% endif %}
-    <div class="main-infos">
-        <h3>                        
-            {% for artist in song.artists.getValues() %}
-                {% if loop.index > 1 %},{% endif %}
-                {{ artist.name }}
-            {% endfor %}
-        </h3>
-        <h2>{{ song.title }}</h2>
-    </div>
-    <div class="blocs">
-        <div class="info-bloc">
-            <p>Genre</p>
-            {{ song.genre.value }}
-        </div>
-        <div class="info-bloc">
-            <p>Durée</p>
-            {{ utilsService.formatDuration(song.duration) }}
-        </div>
-        <div class="info-bloc">
-            <p>Date de sortie</p>
-            {{ song.getReleaseDate().format('d M Y') }}
-        </div>
-    </div>
-</div>
 {% endblock %}

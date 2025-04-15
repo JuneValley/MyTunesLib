@@ -114,7 +114,11 @@ class Song
 
     public function getYtbLink(): ?string
     {
-        return $this->ytb_link;
+        if($this->ytb_link){
+            return "https://www.youtube.com/embed/" . substr($this->ytb_link, 32);
+        } else {
+            return null;
+        }
     }
 
     public function setYtbLink(?string $ytb_link): static

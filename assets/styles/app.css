@@ -1,55 +1,75 @@
-body {
-    background-color: white;
+body{
+    background-color: #161616;
+}
+
+.main-wrapper{
+    margin: 0 5% 0 5%;
+    font: 18px/1.5 sans-serif;
+    color: rgb(250, 250, 250);
 }
 
 a{
     text-decoration: none;
-    color: black;
+    color: rgb(250, 250, 250);
 }
 
-table {
-    border-radius: inherit;
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+table{
+    width: 100%;
+    border-spacing: 0;
 }
 
-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
-    text-align: left;
+td{
+    border: none;
 }
 
-table th,
-table td {
-    padding: 12px 15px;
-}
-    
-table tbody tr {
-    border-bottom: 2px solid #009879;
-    transition: 0.2s;
+.song-tr{
+    border-radius: 15px;
+    font-size: larger;
     cursor: pointer;
+    transition: 0.5s;
 }
 
-table tbody tr:hover {
-    background-color: rgb(226, 226, 226);
+.song-tr:hover{
+    background-color: rgb(70, 70, 70);
 }
 
-.artists-array{
-    width: 1%;
-    white-space: nowrap;
+.table-head{
+    color: rgb(202, 202, 202);
+    font-size: small;
 }
 
 .back-button{
     padding: 10px;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    transition: 0.3s;
+    transform-origin: bottom right;
+    transition: 0.5s;
+    font-size: larger;
 }
 
 .back-button:hover{
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.30);
+    color: rgb(176, 176, 176);
+}
+
+.song-details{
+    display: flex;
+    justify-content: space-around;
+}
+
+.infos{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.blocs{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 75%;
+}
+
+.ytb-integration{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
 }

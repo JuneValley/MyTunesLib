@@ -8,36 +8,32 @@
 	<div class="song-list">
 		{% if allSongs %}
 			<table>
-				<thead>
-					<tr>
-						<th></th>
-						<th>Titre</th>
-						<th>Artiste(s)</th>
-						<th>Durée</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for song in allSongs %}
-						<tr onclick="window.location='/{{song.id}}'">
-							<td>
-								{% if song.getUrlCover() %}
-									<img src="{{song.getUrlCover()}}" height="100px" width="100px">
-								{% else %}
-									<img src="{{asset('default_cover.png')}}" height="100px" width="100px">
+				<tr class="table-head">
+					<td></td>
+					<td>Titre</td>
+					<td>Artiste(s)</td>
+					<td>Durée</td>
+				</tr>
+				{% for song in allSongs %}
+					<tr class="song-tr" onclick="window.location='/{{song.id}}'">
+						<td>
+							{% if song.getUrlCover() %}
+								<img src="{{song.getUrlCover()}}" height="100px" width="100px">
+							{% else %}
+								<img src="{{asset('default_cover.png')}}" height="100px" width="100px">
+							{% endif %}
+						</td>
+						<td>{{ song.title }}</td>
+						<td class="artists-array">
+							{% for artist in song.artists.getValues() %}
+								{% if loop.index > 1 %},
 								{% endif %}
-							</td>
-							<td>{{ song.title }}</td>
-							<td class="artists-array">
-								{% for artist in song.artists.getValues() %}
-									{% if loop.index > 1 %},
-									{% endif %}
-									{{ artist.name }}
-								{% endfor %}
-							</td>
-							<td>{{ utilsService.formatDuration(song.duration) }}</td>
-						</tr>
-					{% endfor %}
-				</tbody>
+								{{ artist.name }}
+							{% endfor %}
+						</td>
+						<td>{{ utilsService.formatDuration(song.duration) }}</td>
+					</tr>
+				{% endfor %}
 			</table>
 		{% else %}
 			<h1 style="color: red">Veuillez ajouter des titres pour commencer !</h1>
