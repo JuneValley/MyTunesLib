@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="main-wrapper">
-            <h1>🎵 My Tunes Lib 🎵</h1>
-            {% block body %}{% endblock %}
-        </div>
-    </body>
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		<div class="main-wrapper">
+			<div class="header">
+				<h1>🎵 My Tunes Lib 🎵</h1>
+				<div class="header-buttons">
+					{% if app.session.get('user') %}
+						<button class="disconnect-btn" onclick="window.location='/logout'">Déconnexion</button>
+					{% else %}
+						<button class="login-btn" onclick="window.location='/login'">Connexion</button>
+						<button class="signup-btn" onclick="window.location='/signup'">Inscription</button>
+					{% endif %}
+				</div>
+			</div>
+			{% if app.session.get('user') %}
+				<h3>Bonjour {{ app.session.get('user')['username'] }} !</h3>
+			{% endif %}
+			{% block body %}{% endblock %}
+		</div>
+	</body>
 </html>

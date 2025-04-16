@@ -16,4 +16,9 @@ class UsersService {
 
         return $user;
     }
+
+    public function checkPassword(UserPasswordHasherInterface $passwordHasher, User $user, string $plaintextPassword): bool
+    {
+        return $passwordHasher->isPasswordValid($user, $plaintextPassword);
+    }
 }
