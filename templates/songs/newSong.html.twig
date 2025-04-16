@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Tunes Lib - Ajouter un titre
+{% endblock %}
+
+{% block body %}
+	<h2>Ajouter un titre</h2>
+	{% for message in app.flashes('error') %}
+		<div style="color:red">
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+{% endblock %}

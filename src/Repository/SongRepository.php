@@ -37,4 +37,10 @@ class SongRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function newSong($song): void
+    {
+        $this->getEntityManager()->persist($song);
+        $this->getEntityManager()->flush();
+    }
 }

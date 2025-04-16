@@ -17,26 +17,47 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class UsersController extends AbstractController
 {
     #[Route('/signup', name: 'app_signup')]
-    public function signup(UserRepository $users, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
+    public function signup(UserRepository $userRepository, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
         $form = $this->createFormBuilder(null, ['method' => 'POST'])
             ->add('Nom', TextType::class)
             ->add('Mot_de_passe', PasswordType::class)
             ->add('Confirmer_le_mot_de_passe', PasswordType::class)
-            ->add('new_user', SubmitType::class, ['label' => 'Créer un compte'])
+            ->add('new_user', SubmitType::class, ['label' => 'Créer un compte ✅'])
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
         {
+            if($userRepository->findUserByUsername($form->get('Nom')->getData())){
+                $this->addFlash('error', 'Ce nom d\'utilisateur correspond a un compte déjà existant !');
+                return $this->redirectToRoute('app_signup');
+            }
+
             if ($form->get('Mot_de_passe')->getData() === $form->get('Confirmer_le_mot_de_passe')->getData()) {
                 $user = new User();
                 $user->setUsername($form->get('Nom')->getData());
                 $user->setRoles(['USER']);
                 $finalUser = $usersService->getHashedPasswordUser($passwordHasher, $user, $form->get('Mot_de_passe')->getData());
-                $users->newUser($finalUser);
-                return $this->redirectToRoute('app_songs');
+                $userRepository->newUser($finalUser);
+
+                $userToLog = $userRepository->findUserByUsername($form->get('Nom')->getData());
+                if($userToLog){
+                    $session = new Session();
+                    if(!$request->getSession()->isStarted())
+                    {
+                        $session->start();
+                    }
+                    $session->set('user', array(
+                        'username' => $userToLog->getUsername(),
+                        'role' => $userToLog->getRoles()
+                    ));
+                    return $this->redirectToRoute('app_songs');
+                } else {
+                    $this->addFlash('error', 'Une erreur s\'est produite lors de la connexion à votre nouveau compte. Veuillez essayer de vous conencter manuellement.');
+                    return $this->redirectToRoute('app_signup');
+                }
             } else {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas !');
                 return $this->redirectToRoute('app_signup');
@@ -49,23 +70,25 @@ class UsersController extends AbstractController
     }
 
     #[Route('/login', name: 'app_login')]
-    public function login(UserRepository $users, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
+    public function login(UserRepository $userRepository, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
         $form = $this->createFormBuilder(null, ['method' => 'POST'])
         ->add('Nom', TextType::class)
         ->add('Mot_de_passe', PasswordType::class)
-        ->add('login', SubmitType::class, ['label' => 'Connexion'])
+        ->add('login', SubmitType::class, ['label' => 'Connexion 🔓'])
         ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) 
         {
-            $userToLog = $users->findUserByUsername($form->get('Nom')->getData());
+            $userToLog = $userRepository->findUserByUsername($form->get('Nom')->getData());
             if($userToLog && $usersService->checkPassword($passwordHasher, $userToLog, $form->get('Mot_de_passe')->getData()))
             {
                 $session = new Session();
-                $session->start();
+                if(!$request->getSession()->isStarted()){
+                    $session->start();
+                }
                 $session->set('user', array(
                     'username' => $userToLog->getUsername(),
                     'role' => $userToLog->getRoles()

@@ -8,7 +8,7 @@ class UtilsService {
      * @param int $durationInSeconds the song duration in seconds
      * @return string the formatted duration
      */
-    public function formatDuration(int $durationInSeconds): string
+    public function formatDurationToMinutesSeconds(int $durationInSeconds): string
     {
         $minutes = intdiv($durationInSeconds, 60);
         $seconds = $durationInSeconds - $minutes*60;
@@ -21,8 +21,14 @@ class UtilsService {
         }
     }
 
-    public function redirectToRoute(string $route): void
+    /**
+     * Returns a song duration in seconds
+     * @param int $durationInMinutes the song duration in minutes
+     * @param int $durationInSeconds the song duration in seconds
+     * @return int the duration in seconds
+     */
+    public function formatDurationToSeconds(int $durationInMinutes, int $durationInSeconds): string
     {
-        $this->redirectToRoute($route);
+        return $durationInMinutes*60 + $durationInSeconds;
     }
 }

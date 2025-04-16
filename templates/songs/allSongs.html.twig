@@ -31,7 +31,7 @@
 								{{ artist.name }}
 							{% endfor %}
 						</td>
-						<td>{{ utilsService.formatDuration(song.duration) }}</td>
+						<td>{{ utilsService.formatDurationToMinutesSeconds(song.duration) }}</td>
 					</tr>
 				{% endfor %}
 			</table>
