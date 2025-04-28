@@ -1,22 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Tunes Lib - Tous les titres
+{% block title %}My Tunes Lib - Ma Playlist
 {% endblock %}
 
 {% block body %}
-	<h2>Tous les titres :</h2>
+	<h2>Ma Playlist :</h2>
 	<div class="song-list">
-		{% if allSongs %}
+		{% if playlist.owner.playlist.snapshot|length > 0 %}
 			<table>
 				<tr class="table-head">
 					<td></td>
 					<td>Titre</td>
 					<td>Artiste(s)</td>
 					<td>Durée</td>
+					<td></td>
 				</tr>
-				{% for song in allSongs %}
-					<tr class="song-tr" onclick="window.location='/song/{{song.id}}'">
-						<td>
+				{% for song in playlist %}
+					<tr class="song-tr" onclick="window.location='/song/{{song.id}}'" 
+						ondblclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce titre de votre playlist ?')){
+						window.location='/removeFromPlaylist/{{song.id}}'}"><td>
 							{% if song.getUrlCover() %}
 								<img src="{{song.getUrlCover()}}" height="100px" width="100px">
 							{% else %}
@@ -36,7 +38,7 @@
 				{% endfor %}
 			</table>
 		{% else %}
-			<h1 style="color: red">Aucun titre disponible actuellement</h1>
+			<h1 style="color: red">Veuillez ajouter des titres pour commencer !</h1>
 		{% endif %}
 	</div>
 {% endblock %}

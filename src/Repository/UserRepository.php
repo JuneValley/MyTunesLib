@@ -33,33 +33,42 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
     public function findUserByUsername($username): ?User
     {
         return $this->createQueryBuilder('u')
-        ->andWhere('u.username = :username')
-        ->setParameter('username', $username)
-        ->getQuery()
-        ->getOneOrNullResult();
+            ->andWhere('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function newUser($user): void
     {
         $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+    }
+
+    public function addToPlaylist($id, $song): void
+    {
+        $user = $this->createQueryBuilder('u')
+        ->andWhere('u.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        $user->addSongToPlaylist($song);
+        $this->getEntityManager()->flush();
+    }
+
+    public function removeFromPlaylist($id, $song): void
+    {
+        $user = $this->createQueryBuilder('u')
+        ->andWhere('u.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        $user->removeSongFromPlaylist($song);
         $this->getEntityManager()->flush();
     }
 }

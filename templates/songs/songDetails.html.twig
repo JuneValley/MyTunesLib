@@ -10,9 +10,8 @@
 			<a href="/editSong/{{song.id}}" class="back-button">✏️ Modifier</a>
 			<a onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce titre ? (cette action est irréversible)')){
 				window.location='/deleteSong/{{song.id}}'}" class="back-button">🗑️ Supprimer</a>
-		{% elseif app.session.get('user')['role'][0] == 'USER' %}
-			<a href="/addToLibrary/{{song.id}}" class="back-button">📼 Ajouter à ma playlist</a>
 		{% endif %}
+		<a href="/addToPlaylist/{{song.id}}" class="back-button">📼 Ajouter à ma playlist</a>
 	{% endif %}
 	<h2>Détails :</h2>
 	<div class="song-details">

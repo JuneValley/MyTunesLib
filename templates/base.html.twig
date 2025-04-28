@@ -26,6 +26,7 @@
 						{% if app.session.get('user')['role'][0] == 'ADMIN' %}
 							<button class="add-song-btn" onclick="window.location='/newSong'">Ajouter un titre 🆕</button>
 						{% endif %}
+						<button class="playlist-btn" onclick="window.location='/playlist'">Ma Playlist 💽</button>
 						<button class="disconnect-btn" onclick="window.location='/logout'">Déconnexion ⏻</button>
 					{% else %}
 						<button class="login-btn" onclick="window.location='/login'">Connexion 🔑</button>

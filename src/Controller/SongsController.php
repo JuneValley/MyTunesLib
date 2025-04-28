@@ -7,6 +7,7 @@ use App\Entity\Song;
 use App\Model\GenreEnum;
 use App\Repository\ArtistRepository;
 use App\Repository\SongRepository;
+use App\Repository\UserRepository;
 use App\Service\UtilsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -29,6 +30,53 @@ final class SongsController extends AbstractController
             'allSongs' => $allSongs,
             'utilsService' => $utilsService
         ]);
+    }
+
+    #[Route('/playlist', name: 'app_playlist')]
+    public function playlist(UserRepository $userRepository, UtilsService $utilsService, Request $request): Response
+    {
+        $connectedUser = $userRepository->findUserByUsername($request->getSession()->get('user')['username']);
+
+        if($connectedUser){
+            $playlist = $connectedUser->getPlaylist();
+        } else {
+            return $this->redirectToRoute('app_songs');
+        }
+
+        return $this->render('songs/playlist.html.twig', [
+            'playlist' => $playlist,
+            'utilsService' => $utilsService
+        ]);
+    }
+
+    #[Route('/addToPlaylist/{song_id}', name: 'app_add_to_playlist')]
+    public function addToPlaylist(SongRepository $songRepository, UserRepository $userRepository, Request $request, string $song_id): Response
+    {
+        $songToAdd = $songRepository->findSongById($song_id);
+        $connectedUser = $userRepository->findUserByUsername($request->getSession()->get('user')['username']);
+
+        if($connectedUser){
+            $userRepository->addToPlaylist($connectedUser->getId(), $songToAdd);
+        } else {
+            return $this->redirectToRoute('app_songs');
+        }
+
+        return $this->redirectToRoute('app_playlist');
+    }
+
+    #[Route('/removeFromPlaylist/{song_id}', name: 'app_remove_from_playlist')]
+    public function removeFromPlaylist(SongRepository $songRepository, UserRepository $userRepository, Request $request, string $song_id): Response
+    {
+        $songToRemove = $songRepository->findSongById($song_id);
+        $connectedUser = $userRepository->findUserByUsername($request->getSession()->get('user')['username']);
+
+        if($connectedUser){
+            $userRepository->removeFromPlaylist($connectedUser->getId(), $songToRemove);
+        } else {
+            return $this->redirectToRoute('app_songs');
+        }
+
+        return $this->redirectToRoute('app_playlist');
     }
 
     #[Route('/song/{song_id}', name: 'app_song_details')]
