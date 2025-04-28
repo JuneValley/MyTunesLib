@@ -17,7 +17,10 @@
 	<body>
 		<div class="main-wrapper">
 			<div class="header">
-				<a href="/"><h1 class="app-title"><img src="{{asset('app_logo.png')}}" height="75" width="75">My Tunes Lib</h1></a>
+				<a class="app-title-container" href="/">
+					<img src="{{asset('app_logo.png')}}" height="75" width="75">
+					<h1 class="app-title">My Tunes Lib</h1>
+				</a>
 				<div class="header-buttons">
 					{% if app.session.get('user') %}
 						{% if app.session.get('user')['role'][0] == 'ADMIN' %}

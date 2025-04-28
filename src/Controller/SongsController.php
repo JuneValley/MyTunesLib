@@ -61,36 +61,31 @@ final class SongsController extends AbstractController
             ->add('Duree_minutes', NumberType::class)
             ->add('Duree_secondes', NumberType::class)
             ->add('Date_de_sortie', DateType::class)
-            ->add('Url_de_la_cover', UrlType::class, array('required' => false))
-            ->add('Url_Youtube', UrlType::class, array('required' => false))
+            ->add('Url_de_la_cover', UrlType::class, ['required' => false])
+            ->add('Url_Youtube', UrlType::class, ['required' => false])
             ->add('new_song', SubmitType::class, ['label' => 'Ajouter un nouveau titre ♫'])
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted())
-        {
+        if ($form->isSubmitted()) {
             $song = new Song();
             $song->setTitle($form->get('Titre')->getData());
             $song->setGenre($form->get('Genre')->getData());
             $duration = $utilsService->formatDurationToSeconds($form->get('Duree_minutes')->getData(), $form->get('Duree_secondes')->getData());
             $song->setDuration($duration);
             $song->setReleaseDate($form->get('Date_de_sortie')->getData());
-            if($form->get('Url_de_la_cover')->getData())
-            {
+            if ($form->get('Url_de_la_cover')->getData()) {
                 $song->setUrlCover($form->get('Url_de_la_cover')->getData());
             }
-            if($form->get('Url_Youtube')->getData())
-            {
+            if ($form->get('Url_Youtube')->getData()) {
                 $song->setYtbLink($form->get('Url_Youtube')->getData());
             }
 
             $artists = explode(',', $form->get('Artistes')->getData());
 
-            foreach($artists as $artist)
-            {
-                if($artistRepository->findArtistByName($artist))
-                {
+            foreach ($artists as $artist) {
+                if ($artistRepository->findArtistByName($artist)) {
                     $song->addArtist($artistRepository->findArtistByName($artist));
                 } else {
                     $newArtist = new Artist();
@@ -107,5 +102,13 @@ final class SongsController extends AbstractController
         return $this->render('songs/newSong.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/deleteSong/{song_id}', name: 'app_delete_song')]
+    public function deleteSong(SongRepository $songRepository, string $song_id): Response
+    {
+        $songRepository->deleteSongById($song_id);
+
+        return $this->redirectToRoute('app_songs');
     }
 }

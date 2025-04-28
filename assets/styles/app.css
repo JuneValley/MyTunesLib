@@ -47,9 +47,18 @@ button:active {
   transform: translateY(0);
 }
 
-.app-title{
+.app-title-container{
     display: flex;
     align-items: center;
+    transition: 0.4s;
+}
+
+.app-title-container:hover{
+    filter: brightness(70%);
+}
+
+.app-title{
+    margin: 0;
 }
 
 .main-wrapper{
@@ -63,6 +72,7 @@ button:active {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    height: 125px;
 }
 
 a{
@@ -101,6 +111,7 @@ td{
     transform-origin: bottom right;
     transition: 0.5s;
     font-size: larger;
+    cursor: pointer;
 }
 
 .back-button:hover{
@@ -129,4 +140,36 @@ td{
     margin-top: 50px;
     display: flex;
     justify-content: center;
+}
+
+#form{
+    width: 40%;
+}
+
+#form div{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#form input{
+    width: 45%;
+}
+
+@media screen and (max-width: 1160px){
+    #form{
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1400px){
+    #form{
+        width: 40%;
+    }
+}
+
+@media screen and (min-width: 1600px){
+    #form{
+        width: 30%;
+    }
 }

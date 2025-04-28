@@ -4,7 +4,16 @@
 {% endblock %}
 
 {% block body %}
-	<a href="/" class="back-button">⬅️ Retour</a>
+	<a onclick="history.go(-1)" class="back-button">⬅️ Retour</a>
+	{% if app.session.get('user') %}
+		{% if app.session.get('user')['role'][0] == 'ADMIN' %}
+			<a href="/editSong/{{song.id}}" class="back-button">✏️ Modifier</a>
+			<a onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce titre ? (cette action est irréversible)')){
+				window.location='/deleteSong/{{song.id}}'}" class="back-button">🗑️ Supprimer</a>
+		{% elseif app.session.get('user')['role'][0] == 'USER' %}
+			<a href="/addToLibrary/{{song.id}}" class="back-button">📼 Ajouter à ma playlist</a>
+		{% endif %}
+	{% endif %}
 	<h2>Détails :</h2>
 	<div class="song-details">
 		{% if song.getUrlCover() %}
@@ -38,9 +47,9 @@
 			</div>
 		</div>
 	</div>
-    {% if song.getYtbLink() %}
-    <div class="ytb-integration">
-        <iframe width="640" height="360" src="{{song.getYtbLink()}}"></iframe>
-    </div>
-    {% endif %}
+	{% if song.getYtbLink() %}
+		<div class="ytb-integration">
+			<iframe width="640" height="360" src="{{song.getYtbLink()}}"></iframe>
+		</div>
+	{% endif %}
 {% endblock %}
