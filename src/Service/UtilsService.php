@@ -8,17 +8,21 @@ class UtilsService {
      * @param int $durationInSeconds the song duration in seconds
      * @return string the formatted duration
      */
-    public function formatDurationToMinutesSeconds(int $durationInSeconds): string
+    public function formatDurationToMinutesSeconds(int $durationInSeconds, bool $isFromController): string
     {
         $minutes = intdiv($durationInSeconds, 60);
         $seconds = $durationInSeconds - $minutes*60;
+
+        if($isFromController){
+            return strval($minutes) . ',' . strval($seconds);
+        }
         
         if($seconds < 10)
         {
             return strval($minutes) . ':0' . strval($seconds);
-        } else {
-            return strval($minutes) . ':' . strval($seconds);
         }
+
+        return strval($minutes) . ':' . strval($seconds);
     }
 
     /**

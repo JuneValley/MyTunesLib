@@ -13,12 +13,11 @@
 					<td>Titre</td>
 					<td>Artiste(s)</td>
 					<td>Durée</td>
-					<td></td>
+					<td>Retirer</td>
 				</tr>
 				{% for song in playlist %}
-					<tr class="song-tr" onclick="window.location='/song/{{song.id}}'" 
-						ondblclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce titre de votre playlist ?')){
-						window.location='/removeFromPlaylist/{{song.id}}'}"><td>
+					<tr class="song-tr" onclick="location.href='/song/{{song.id}}'">
+						<td>
 							{% if song.getUrlCover() %}
 								<img src="{{song.getUrlCover()}}" height="100px" width="100px">
 							{% else %}
@@ -33,7 +32,12 @@
 								{{ artist.name }}
 							{% endfor %}
 						</td>
-						<td>{{ utilsService.formatDurationToMinutesSeconds(song.duration) }}</td>
+						<td>{{ utilsService.formatDurationToMinutesSeconds(song.duration, false) }}</td>
+						<td onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce titre de votre playlist ?')){
+							location.href='/removeFromPlaylist/{{song.id}}'}; event.stopPropagation();"
+							title="Retirer ce titre de votre playlist">
+							❌
+						</td>
 					</tr>
 				{% endfor %}
 			</table>

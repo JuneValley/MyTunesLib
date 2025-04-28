@@ -4,12 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<a onclick="history.go(-1)" class="back-button">⬅️ Retour</a>
 	{% if app.session.get('user') %}
 		{% if app.session.get('user')['role'][0] == 'ADMIN' %}
 			<a href="/editSong/{{song.id}}" class="back-button">✏️ Modifier</a>
 			<a onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce titre ? (cette action est irréversible)')){
-				window.location='/deleteSong/{{song.id}}'}" class="back-button">🗑️ Supprimer</a>
+				location.href='/deleteSong/{{song.id}}'}" class="back-button">🗑️ Supprimer</a>
 		{% endif %}
 		<a href="/addToPlaylist/{{song.id}}" class="back-button">📼 Ajouter à ma playlist</a>
 	{% endif %}
@@ -37,7 +36,7 @@
 				</div>
 				<div class="info-bloc">
 					<p>Durée</p>
-					{{ utilsService.formatDurationToMinutesSeconds(song.duration) }}
+					{{ utilsService.formatDurationToMinutesSeconds(song.duration, false) }}
 				</div>
 				<div class="info-bloc">
 					<p>Date de sortie</p>

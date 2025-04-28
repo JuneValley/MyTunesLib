@@ -24,13 +24,13 @@
 				<div class="header-buttons">
 					{% if app.session.get('user') %}
 						{% if app.session.get('user')['role'][0] == 'ADMIN' %}
-							<button class="add-song-btn" onclick="window.location='/newSong'">Ajouter un titre 🆕</button>
+							<button class="add-song-btn" onclick="location.href='/newSong'">Ajouter un titre 🆕</button>
 						{% endif %}
-						<button class="playlist-btn" onclick="window.location='/playlist'">Ma Playlist 💽</button>
-						<button class="disconnect-btn" onclick="window.location='/logout'">Déconnexion ⏻</button>
+						<button class="playlist-btn" onclick="location.href='/playlist'">Ma Playlist 💽</button>
+						<button class="disconnect-btn" onclick="location.href='/logout'">Déconnexion ⏻</button>
 					{% else %}
-						<button class="login-btn" onclick="window.location='/login'">Connexion 🔑</button>
-						<button class="signup-btn" onclick="window.location='/signup'">Inscription 🚀</button>
+						<button class="login-btn" onclick="location.href='/login'">Connexion 🔑</button>
+						<button class="signup-btn" onclick="location.href='/signup'">Inscription 🚀</button>
 					{% endif %}
 				</div>
 			</div>

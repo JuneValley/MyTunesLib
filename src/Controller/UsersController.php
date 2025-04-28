@@ -19,6 +19,11 @@ class UsersController extends AbstractController
     #[Route('/signup', name: 'app_signup')]
     public function signup(UserRepository $userRepository, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
+        //NOT CONNECTED ONLY
+        if ($request->getSession()->get('user') !== null) {
+            return $this->redirectToRoute('app_songs');
+        }
+
         $form = $this->createFormBuilder(null, ['method' => 'POST'])
             ->add('Nom', TextType::class)
             ->add('Mot_de_passe', PasswordType::class)
@@ -28,9 +33,8 @@ class UsersController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted())
-        {
-            if($userRepository->findUserByUsername($form->get('Nom')->getData())){
+        if ($form->isSubmitted()) {
+            if ($userRepository->findUserByUsername($form->get('Nom')->getData())) {
                 $this->addFlash('error', 'Ce nom d\'utilisateur correspond a un compte déjà existant !');
                 return $this->redirectToRoute('app_signup');
             }
@@ -43,10 +47,9 @@ class UsersController extends AbstractController
                 $userRepository->newUser($finalUser);
 
                 $userToLog = $userRepository->findUserByUsername($form->get('Nom')->getData());
-                if($userToLog){
+                if ($userToLog) {
                     $session = new Session();
-                    if(!$request->getSession()->isStarted())
-                    {
+                    if (!$request->getSession()->isStarted()) {
                         $session->start();
                     }
                     $session->set('user', array(
@@ -72,21 +75,24 @@ class UsersController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function login(UserRepository $userRepository, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
+        //NOT CONNECTED ONLY
+        if ($request->getSession()->get('user') !== null) {
+            return $this->redirectToRoute('app_songs');
+        }
+
         $form = $this->createFormBuilder(null, ['method' => 'POST'])
-        ->add('Nom', TextType::class)
-        ->add('Mot_de_passe', PasswordType::class)
-        ->add('login', SubmitType::class, ['label' => 'Connexion 🔓'])
-        ->getForm();
+            ->add('Nom', TextType::class)
+            ->add('Mot_de_passe', PasswordType::class)
+            ->add('login', SubmitType::class, ['label' => 'Connexion 🔓'])
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) 
-        {
+        if ($form->isSubmitted()) {
             $userToLog = $userRepository->findUserByUsername($form->get('Nom')->getData());
-            if($userToLog && $usersService->checkPassword($passwordHasher, $userToLog, $form->get('Mot_de_passe')->getData()))
-            {
+            if ($userToLog && $usersService->checkPassword($passwordHasher, $userToLog, $form->get('Mot_de_passe')->getData())) {
                 $session = new Session();
-                if(!$request->getSession()->isStarted()){
+                if (!$request->getSession()->isStarted()) {
                     $session->start();
                 }
                 $session->set('user', array(

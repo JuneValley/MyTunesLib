@@ -44,6 +44,11 @@ class SongRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function updateSong(): void
+    {
+        $this->getEntityManager()->flush();
+    }
+
     public function deleteSongById($id): void
     {
         $songToDel = $this->createQueryBuilder('s')
