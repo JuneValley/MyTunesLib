@@ -12,3 +12,11 @@ Pour installer MyTunesLib, suivez les étapes suivantes :
 - via un terminal, exécutez les commandes *php bin/console make:migration* et *php bin/console doctrine:migrations:migrate* pour créer les tables dans votre base.
 - lancez le serveur symfony à l'aide de la commande *symfony server:start*
 - rendez-vous sur 127.0.0.1:8000 pour tester le bon fonctionnement de l'application.
+
+# Création d'un compte administrateur
+
+Pour créer un compte administrateur, ouvrez un terminal et tapez la commande suivante :  
+*symfony console app:create-admin [nom d'utilisateur] [mot de passe]*
+
+Un message de succès s'affichera pour confirmer la création.  
+Vous pouvez à présent essayer de vous connecter sur l'application avec ce compte pour vérifier son bon fonctionnement.
