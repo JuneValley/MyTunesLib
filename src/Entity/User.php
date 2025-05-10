@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -114,6 +113,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->playlist;
     }
 
+    /**
+     * Adds a song to the playlist of the user if this song is not already in the playlist.
+     * @param \App\Entity\Song $song The song to add.
+     * @return User
+     */
     public function addSongToPlaylist(Song $song): static
     {
         if (!$this->playlist->contains($song)) {
@@ -123,6 +127,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * Removes a song from the playlist of the user.
+     * @param \App\Entity\Song $song The song to remove.
+     * @return User
+     */
     public function removeSongFromPlaylist(Song $song): static
     {
         $this->playlist->removeElement($song);

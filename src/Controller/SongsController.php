@@ -23,6 +23,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class SongsController extends AbstractController
 {
+    /**
+     * Route that fetches all songs from database and redirect to the main app page.
+     */
     #[Route('/', name: 'app_songs')]
     public function allSongs(SongRepository $songRepository, UtilsService $utilsService): Response
     {
@@ -33,6 +36,10 @@ final class SongsController extends AbstractController
         ]);
     }
 
+    /**
+     * Route that fetches the currently connected user and its corresponding playlist, then redirect to the playlist page.
+     * If no user is connected, redirect to the main app page.
+     */
     #[Route('/playlist', name: 'app_playlist')]
     public function playlist(UserRepository $userRepository, UtilsService $utilsService, Request $request): Response
     {
@@ -50,6 +57,10 @@ final class SongsController extends AbstractController
         ]);
     }
 
+    /**
+     * Route that adds a song to the playlist of the currently connected user via its id.
+     * If no user is connected, redirect to the main app page.
+     */
     #[Route('/addToPlaylist/{song_id}', name: 'app_add_to_playlist')]
     public function addToPlaylist(SongRepository $songRepository, UserRepository $userRepository, Request $request, string $song_id): Response
     {
@@ -66,6 +77,10 @@ final class SongsController extends AbstractController
         return $this->redirectToRoute('app_playlist');
     }
 
+    /**
+     * Route that removes a song from the playlist of the currently connected user via its id.
+     * If no user is connected, redirect to the main app page.
+     */
     #[Route('/removeFromPlaylist/{song_id}', name: 'app_remove_from_playlist')]
     public function removeFromPlaylist(SongRepository $songRepository, UserRepository $userRepository, Request $request, string $song_id): Response
     {
@@ -82,6 +97,10 @@ final class SongsController extends AbstractController
         return $this->redirectToRoute('app_playlist');
     }
 
+    /**
+     * Route that redirect to the corresponding details of a song via its id.
+     * If no corresponding song is found, redirect to the main app page.
+     */
     #[Route('/song/{song_id}', name: 'app_song_details')]
     public function songDetails(SongRepository $songRepository, UtilsService $utilsService, string $song_id): Response
     {
@@ -97,6 +116,11 @@ final class SongsController extends AbstractController
         ]);
     }
 
+    /**
+     * Route that redirect to the page for creation of a new song and generates the form to fill up. Only accessible to administrators.
+     * Handles the creation of the song and corresponding artists in the database.
+     * If no user is connected or the connected user is not an admin, redirect to the main app page.
+     */
     #[Route('/newSong', name: 'app_new_song')]
     public function newSong(SongRepository $songRepository, ArtistRepository $artistRepository, UtilsService $utilsService, Request $request): Response
     {
@@ -165,6 +189,12 @@ final class SongsController extends AbstractController
         ]);
     }
 
+    /**
+     * Route that redirect to the page for edition of an existing song via its id and generates the form with pre-filled fields.
+     * Only accessible to administrators.
+     * Handles the edition of the song and corresponding artists in the database.
+     * If no user is connected or the connected user is not an admin or no corresponding song is found, redirect to the main app page.
+     */
     #[Route('/editSong/{song_id}', name: 'app_edit_song')]
     public function editSong(SongRepository $songRepository, ArtistRepository $artistRepository, UtilsService $utilsService, Request $request, EntityManagerInterface $entityManager, string $song_id): Response
     {
@@ -249,6 +279,11 @@ final class SongsController extends AbstractController
         ]);
     }
 
+    /**
+     * Route that deletes a song via its id. Only accessible to administrators.
+     * Handles the deletion of the song in the database.
+     * If no user is connected or the connected user is not an admin, redirect to the main app page.
+     */
     #[Route('/deleteSong/{song_id}', name: 'app_delete_song')]
     public function deleteSong(SongRepository $songRepository, Request $request, string $song_id): Response
     {

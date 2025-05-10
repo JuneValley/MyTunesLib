@@ -112,6 +112,10 @@ class Song
         return $this;
     }
 
+    /**
+     * Returns the embeded link for the YouTube integration with video ID if url exists.
+     * @return string|null
+     */
     public function getYtbLink(): ?string
     {
         if($this->ytb_link){
@@ -136,6 +140,11 @@ class Song
         return $this->artists;
     }
 
+    /**
+     * Adds an artists to a song.
+     * @param \App\Entity\Artist $artist The artist to add.
+     * @return Song
+     */
     public function addArtist(Artist $artist): static
     {
         if (!$this->artists->contains($artist)) {
@@ -145,6 +154,11 @@ class Song
         return $this;
     }
 
+    /**
+     * Removes an artists from a song.
+     * @param \App\Entity\Artist $artist The artist to remove.
+     * @return Song
+     */
     public function removeArtist(Artist $artist): static
     {
         $this->artists->removeElement($artist);

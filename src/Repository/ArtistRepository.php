@@ -16,6 +16,10 @@ class ArtistRepository extends ServiceEntityRepository
         parent::__construct($registry, Artist::class);
     }
 
+    /**
+     * Fetches an artist from the database via its name.
+     * @param mixed $name The name of the artist.
+     */
     public function findArtistByName($name): ?Artist
     {
         return $this->createQueryBuilder('a')
@@ -26,6 +30,11 @@ class ArtistRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * Adds an artist to the database.
+     * @param mixed $artist The artist to add.
+     * @return void
+     */
     public function newArtist($artist): void
     {
         $this->getEntityManager()->persist($artist);

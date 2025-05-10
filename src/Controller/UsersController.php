@@ -16,6 +16,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class UsersController extends AbstractController
 {
+    /**
+     * Route that redirect to the page for creation of a new user and generated the form to fill up.
+     * Handles creation of the user in the database and connects the user to its fresh account.
+     * If username is already taken or passwords are not matching, displays an error message.
+     * If a user is already connected, redirect to the main app page.
+     */
     #[Route('/signup', name: 'app_signup')]
     public function signup(UserRepository $userRepository, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
@@ -72,6 +78,11 @@ class UsersController extends AbstractController
         ]);
     }
 
+    /**
+     * Route that redirects to the login page and generate the form to fill up. When connecting, sets app session to the connected user.
+     * If username or password are incorrect or the account does not exist, displays an error message.
+     * If a user is already connected, redirect to the main app page.
+     */
     #[Route('/login', name: 'app_login')]
     public function login(UserRepository $userRepository, UsersService $usersService, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
@@ -111,6 +122,9 @@ class UsersController extends AbstractController
         ]);
     }
 
+    /**
+     * Route that disconnects the connected user. Resets the app session.
+     */
     #[Route('/logout', name: 'app_logout')]
     public function logout(Request $request): Response
     {
