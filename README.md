@@ -20,3 +20,7 @@ Pour créer un compte administrateur, ouvrez un terminal et tapez la commande su
 
 Un message de succès s'affichera pour confirmer la création.  
 Vous pouvez à présent essayer de vous connecter sur l'application avec ce compte pour vérifier son bon fonctionnement.
+
+# Documentation technique
+
+La documentation technique de l'application est disponible ici : https://docs.google.com/document/d/1VC7v3-LuduzM02cQunqpPWukmz8blujoTyG1CC0m4ok/edit?usp=sharing
