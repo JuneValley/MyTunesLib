@@ -1,6 +1,10 @@
 # MyTunesLib
 
-MyTunesLib est une application web permettant de gérer une bibliothèque musicale et de gérer sa playlist à partir de son compte.
+L’application MyTunesLib permet de gérer une bibliothèque musicale à partir d’un compte administrateur.  
+Ceci comprend la création de titres avec le/les artiste(s) associé(s), le genre, la durée, la pochette d’album ainsi que le lien YouTube.  
+Le mode admin permet aussi l’édition ainsi que la suppression d’un titre.  
+MyTunesLib offre également la possibilité de créer des comptes utilisateurs qui pourront alors créer leur playlist avec les titres de leur choix.
+
 L'application utilise le framework Symfony couplé à l'ORM Doctrine et stock ses données via le SGBD MySQL.
 
 # Installation
