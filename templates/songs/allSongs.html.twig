@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Tunes Lib - Tous les titres
+{% endblock %}
+
+{% block body %}
+	<h2>Tous les titres :</h2>
+	<div class="song-list">
+		{% if allSongs %}
+			<table>
+				<tr class="table-head">
+					<td></td>
+					<td>Titre</td>
+					<td>Artiste(s)</td>
+					<td>Durée</td>
+				</tr>
+				{% for song in allSongs %}
+					<tr class="song-tr" onclick="location.href='/song/{{song.id}}'">
+						<td>
+							{% if song.getUrlCover() %}
+								<img src="{{song.getUrlCover()}}" height="100px" width="100px">
+							{% else %}
+								<img src="{{asset('default_cover.png')}}" height="100px" width="100px">
+							{% endif %}
+						</td>
+						<td>{{ song.title }}</td>
+						<td class="artists-array">
+							{% for artist in song.artists.getValues() %}
+								{% if loop.index > 1 %},
+								{% endif %}
+								{{ artist.name }}
+							{% endfor %}
+						</td>
+						<td>{{ utilsService.formatDurationToMinutesSeconds(song.duration, false) }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		{% else %}
+			<h1 style="color: red">Aucun titre disponible actuellement</h1>
+		{% endif %}
+	</div>
+{% endblock %}

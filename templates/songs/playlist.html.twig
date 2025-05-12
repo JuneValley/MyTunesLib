@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Tunes Lib - Ma Playlist
+{% endblock %}
+
+{% block body %}
+	<h2>Ma Playlist :</h2>
+	<div class="song-list">
+		{% if playlist.owner.playlist.snapshot|length > 0 %}
+			<table>
+				<tr class="table-head">
+					<td></td>
+					<td>Titre</td>
+					<td>Artiste(s)</td>
+					<td>Durée</td>
+					<td>Retirer</td>
+				</tr>
+				{% for song in playlist %}
+					<tr class="song-tr" onclick="location.href='/song/{{song.id}}'">
+						<td>
+							{% if song.getUrlCover() %}
+								<img src="{{song.getUrlCover()}}" height="100px" width="100px">
+							{% else %}
+								<img src="{{asset('default_cover.png')}}" height="100px" width="100px">
+							{% endif %}
+						</td>
+						<td>{{ song.title }}</td>
+						<td class="artists-array">
+							{% for artist in song.artists.getValues() %}
+								{% if loop.index > 1 %},
+								{% endif %}
+								{{ artist.name }}
+							{% endfor %}
+						</td>
+						<td>{{ utilsService.formatDurationToMinutesSeconds(song.duration, false) }}</td>
+						<td onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce titre de votre playlist ?')){
+							location.href='/removeFromPlaylist/{{song.id}}'}; event.stopPropagation();"
+							title="Retirer ce titre de votre playlist">
+							❌
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		{% else %}
+			<h1 style="color: red">Veuillez ajouter des titres pour commencer !</h1>
+		{% endif %}
+	</div>
+{% endblock %}

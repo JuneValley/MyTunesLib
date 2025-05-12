@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="{{asset('app_logo.png')}}"> {% block stylesheets %}{% endblock %}
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		<div class="main-wrapper">
+			<div class="header">
+				<a class="app-title-container" href="/">
+					<img src="{{asset('app_logo.png')}}" height="75" width="75">
+					<h1 class="app-title">My Tunes Lib</h1>
+				</a>
+				<div class="header-buttons">
+					{% if app.session.get('user') %}
+						{% if app.session.get('user')['role'][0] == 'ADMIN' %}
+							<button class="add-song-btn" onclick="location.href='/newSong'">Ajouter un titre 🆕</button>
+						{% endif %}
+						<button class="playlist-btn" onclick="location.href='/playlist'">Ma Playlist 💽</button>
+						<button class="disconnect-btn" onclick="location.href='/logout'">Déconnexion ⏻</button>
+					{% else %}
+						<button class="login-btn" onclick="location.href='/login'">Connexion 🔑</button>
+						<button class="signup-btn" onclick="location.href='/signup'">Inscription 🚀</button>
+					{% endif %}
+				</div>
+			</div>
+			{% if app.session.get('user') %}
+				<h2>Bonjour {{ app.session.get('user')['username'] }} !</h2>
+			{% endif %}
+			{% block body %}{% endblock %}
+		</div>
+	</body>
+</html>
